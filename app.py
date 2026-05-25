@@ -14,17 +14,32 @@ v6_file = st.sidebar.file_uploader("3. Vânzări 6 luni", type=["xlsx"])
 v9_file = st.sidebar.file_uploader("4. Vânzări 9 luni", type=["xlsx"])
 
 if stoc_file and v3_file and v6_file and v9_file:
-    with st.spinner("Se încarcă și se procesează cele 4 fișiere..."):
-        st.success("✅ Toate 4 fișierele au fost încărcate!")
-        
-        st.info("""
-        **Următorul pas important:**
-        - Citirea datelor din cele 4 fișiere
-        - Agregarea codurilor similare
-        - Calculul COM ACUM
-        """)
-        st.balloons()
+    with st.spinner("Se procesează cele 4 fișiere..."):
+        try:
+            # Citire fișiere
+            df_stoc = pd.read_excel(stoc_file)
+            df_v3 = pd.read_excel(v3_file)
+            df_v6 = pd.read_excel(v6_file)
+            df_v9 = pd.read_excel(v9_file)
+
+            st.success("✅ Toate 4 fișierele au fost încărcate cu succes!")
+
+            col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                st.metric("Stoc curent", len(df_stoc))
+            with col2:
+                st.metric("Vânzări 3 luni", len(df_v3))
+            with col3:
+                st.metric("Vânzări 6 luni", len(df_v6))
+            with col4:
+                st.metric("Vânzări 9 luni", len(df_v9))
+
+            st.info("🔄 Următorul pas: Agregarea codurilor + Calcul COM ACUM")
+            st.balloons()
+
+        except Exception as e:
+            st.error(f"Eroare la procesarea fișierelor: {e}")
 else:
-    st.warning("📌 Te rog să încarci **toate 4 fișierele** pentru a începe analiza.")
+    st.warning("📌 Încarcă **toate 4 fișierele** pentru a începe analiza completă.")
 
 st.caption("Aplicație Streamlit • contoare-streamlit")
