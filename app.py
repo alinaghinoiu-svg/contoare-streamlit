@@ -21,18 +21,23 @@ statistica_file = st.sidebar.file_uploader("1. Statistica AI analysis.xlsx", typ
 stoc_file = st.sidebar.file_uploader("2. Situație stoc curent", type=["xlsx"])
 
 if statistica_file and stoc_file:
-    with st.spinner("Se procesează datele și se calculează recomandările..."):
+    with st.spinner("Se procesează datele..."):
         df = pd.read_excel(statistica_file, sheet_name="analiza statistica")
         
         st.success("✅ Fișiere încărcate cu succes!")
         
-        st.subheader("📊 Previzualizare Date")
+        st.subheader("📊 Previzualizare Statistica")
         st.dataframe(df.head(20))
         
-        st.info("🔧 Logica completă de agregare coduri + calcul COM ACUM va fi implementată în continuare.")
+        st.info("""
+        🔧 **Următorul pas**: 
+        - Agregare coduri similare
+        - Calcul COM ACUM = (V3 × 4) - (Stoc + Pe drum)
+        - Recomandări complete de comandă
+        """)
         st.balloons()
 
 else:
-    st.info("📌 Te rog să încarci cele două fișiere Excel pentru a începe analiza.")
+    st.info("📌 Te rog să încarci cele două fișiere Excel (Statistica + Stoc curent) pentru a începe analiza.")
 
 st.caption("Aplicație Streamlit • contoare-streamlit")
